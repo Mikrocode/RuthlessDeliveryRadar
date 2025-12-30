@@ -12,6 +12,7 @@ describe('health endpoint', () => {
       githubToken: undefined,
       databasePath: ':memory:',
       port: 0,
+      gitlabBaseUrl: 'https://gitlab.com',
     };
 
     const db = initDatabase(':memory:');
