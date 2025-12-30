@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= title %> - <%= subtitle %></title>
+    <link rel="stylesheet" href="/public/connections.css" />
+  </head>
+  <body>
+    <main class="container">
+      <header>
+        <p class="eyebrow"><%= title %></p>
+        <h1><%= subtitle %></h1>
+      </header>
+      <section class="cards">
+        <article class="card">
+          <div class="card-head">
+            <h2>Jira</h2>
+            <% if (jira) { %>
+              <span class="pill pill-connected">Connected</span>
+            <% } else { %>
+              <span class="pill pill-disconnected">Not connected</span>
+            <% } %>
+          </div>
+          <% if (jira) { %>
+            <p class="meta">Connected at: <%= jira.connected_at %></p>
+            <% const meta = jira.meta_json ? JSON.parse(jira.meta_json) : {}; %>
+            <% if (meta.siteName) { %>
+              <p class="meta">Site: <%= meta.siteName %></p>
+            <% } %>
+            <form method="post" action="/auth/jira/disconnect">
+              <button class="btn btn-secondary" type="submit">Disconnect</button>
+            </form>
+          <% } else { %>
+            <a class="btn" href="/auth/jira/start">Connect Jira</a>
+          <% } %>
+        </article>
+
+        <article class="card">
+          <div class="card-head">
+            <h2>GitLab</h2>
+            <% if (gitlab) { %>
+              <span class="pill pill-connected">Connected</span>
+            <% } else { %>
+              <span class="pill pill-disconnected">Not connected</span>
+            <% } %>
+          </div>
+          <% if (gitlab) { %>
+            <p class="meta">Connected at: <%= gitlab.connected_at %></p>
+            <% const meta = gitlab.meta_json ? JSON.parse(gitlab.meta_json) : {}; %>
+            <% if (meta.gitlabUsername) { %>
+              <p class="meta">User: <%= meta.gitlabUsername %></p>
+            <% } %>
+            <form method="post" action="/auth/gitlab/disconnect">
+              <button class="btn btn-secondary" type="submit">Disconnect</button>
+            </form>
+          <% } else { %>
+            <a class="btn" href="/auth/gitlab/start">Connect GitLab</a>
+          <% } %>
+        </article>
+      </section>
+    </main>
+  </body>
+</html>
