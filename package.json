@@ -7,7 +7,7 @@
   },
   "scripts": {
     "dev": "tsx watch src/server.ts",
-    "build": "tsc",
+    "build": "tsc && node -e \"const fs=require('fs');if(fs.existsSync('public'))fs.cpSync('public','dist',{recursive:true});\"",
     "start": "node dist/server.js",
     "test": "vitest",
     "lint": "eslint . --ext .ts",
