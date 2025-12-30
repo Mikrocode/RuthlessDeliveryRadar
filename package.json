@@ -7,7 +7,7 @@
   },
   "scripts": {
     "dev": "tsx watch src/server.ts",
-    "build": "tsc && node -e \"const fs=require('fs');if(fs.existsSync('public'))fs.cpSync('public','dist',{recursive:true});\"",
+    "build": "tsc && node -e \"const fs=require('fs');if(fs.existsSync('public'))fs.cpSync('public','dist',{recursive:true});if(fs.existsSync('src/views'))fs.cpSync('src/views','dist/views',{recursive:true});\"",
     "start": "node dist/server.js",
     "test": "vitest",
     "lint": "eslint . --ext .ts",
@@ -17,6 +17,10 @@
     "better-sqlite3": "^9.6.0",
     "dotenv": "^16.4.5",
     "fastify": "^4.28.1",
+    "@fastify/static": "^6.10.2",
+    "@fastify/view": "^8.2.0",
+    "@fastify/cookie": "^9.4.1",
+    "ejs": "^3.1.10",
     "zod": "^3.23.8"
   },
   "devDependencies": {

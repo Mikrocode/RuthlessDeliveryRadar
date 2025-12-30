@@ -20,6 +20,16 @@ export function runMigrations(db: Database.Database): void {
         reasons_json TEXT NOT NULL,
         computed_at TEXT NOT NULL
     );`,
+    `CREATE TABLE IF NOT EXISTS connections (
+        id INTEGER PRIMARY KEY,
+        provider TEXT UNIQUE NOT NULL,
+        access_token TEXT NOT NULL,
+        refresh_token TEXT,
+        expires_at TEXT,
+        meta_json TEXT,
+        connected_at TEXT NOT NULL,
+        updated_at TEXT NOT NULL
+    );`,
   ];
 
   for (const sql of migrations) {

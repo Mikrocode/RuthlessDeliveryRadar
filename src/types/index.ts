@@ -23,3 +23,10 @@ export type DailyScore = {
   reasons_json: string;
   computed_at: string;
 };
+
+export type ConnectionMeta = {
+  cloudId?: string;
+  siteName?: string;
+  gitlabUserId?: number;
+  gitlabUsername?: string;
+};
