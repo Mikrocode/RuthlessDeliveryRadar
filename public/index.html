@@ -2,29 +2,26 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <meta http-equiv="refresh" content="0; url=/connections" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>RuthlessDeliveryRadar</title>
+    <link rel="stylesheet" href="/public/connections.css" />
     <style>
-      body {
+      /* minimal fallback if CSS fails to load */
+      .fallback {
         font-family: system-ui, -apple-system, sans-serif;
-        margin: 2rem;
-        line-height: 1.6;
+        padding: 2rem;
       }
-      code {
-        background: #f4f4f4;
-        padding: 0.2rem 0.4rem;
-        border-radius: 4px;
+      .fallback a {
+        color: #2563eb;
+        font-weight: 700;
       }
     </style>
   </head>
   <body>
-    <h1>RuthlessDeliveryRadar</h1>
-    <p>The API is running. Try the JSON endpoints:</p>
-    <ul>
-      <li><code>/health</code> (or <code>/</code>)</li>
-      <li><code>/sync</code> (POST)</li>
-      <li><code>/score/today</code></li>
-      <li><code>/score/2024-09-20</code></li>
-    </ul>
+    <div class="fallback">
+      <p>Redirecting to the Connections UI…</p>
+      <p><a href="/connections">Go to Connections</a></p>
+    </div>
   </body>
 </html>
