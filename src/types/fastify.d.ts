@@ -8,4 +8,13 @@ declare module 'fastify' {
     config: AppConfig;
     db: DB;
   }
+
+  interface FastifyReply {
+    view: (template: string, data?: unknown) => Promise<string> | string;
+    setCookie: (name: string, value: string, options?: unknown) => void;
+  }
+
+  interface FastifyRequest {
+    cookies: Record<string, string>;
+  }
 }
