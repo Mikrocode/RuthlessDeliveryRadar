@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= title %> - <%= subtitle %></title>
+    <link rel="stylesheet" href="/public/connections.css" />
+  </head>
+  <body>
+    <main class="container">
+      <header class="hero">
+        <div>
+          <p class="eyebrow">RuthlessDeliveryRadar</p>
+          <h1>Manage Git Integrations</h1>
+          <p class="lead">Connect Jira and GitLab in seconds. Keep delivery signals flowing with secure OAuth-powered links.</p>
+          <div class="hero-actions">
+            <a class="btn" href="/connections">Refresh status</a>
+            <a class="btn ghost" href="/health">API health</a>
+          </div>
+        </div>
+        <div class="hero-badge">
+          <div class="badge-icon">⚡️</div>
+          <div>
+            <p class="meta">Auto-connect ready</p>
+            <p class="badge-title">OAuth with PKCE</p>
+          </div>
+        </div>
+      </header>
+
+      <section class="cards">
+        <article class="card">
+          <div class="card-head">
+            <div class="card-title">
+              <span class="logo jira">J</span>
+              <div>
+                <h2>Jira</h2>
+                <p class="muted">Atlassian cloud</p>
+              </div>
+            </div>
+            <% if (jira) { %>
+              <span class="pill pill-connected">Connected</span>
+            <% } else { %>
+              <span class="pill pill-disconnected">Not connected</span>
+            <% } %>
+          </div>
+
+          <% if (jira) { %>
+            <p class="meta">Connected at: <%= jira.connected_at %></p>
+            <% const meta = jira.meta_json ? JSON.parse(jira.meta_json) : {}; %>
+            <% if (meta.siteName) { %>
+              <p class="meta highlight">Site: <%= meta.siteName %></p>
+            <% } %>
+            <form method="post" action="/auth/jira/disconnect">
+              <button class="btn btn-secondary" type="submit">Disconnect</button>
+            </form>
+          <% } else { %>
+            <p class="meta">Scopes: read:jira-work, read:jira-user</p>
+            <a class="btn" href="/auth/jira/start">Connect Jira</a>
+          <% } %>
+        </article>
+
+        <article class="card">
+          <div class="card-head">
+            <div class="card-title">
+              <span class="logo gitlab">GL</span>
+              <div>
+                <h2>GitLab</h2>
+                <p class="muted">GitLab.com or self-managed</p>
+              </div>
+            </div>
+            <% if (gitlab) { %>
+              <span class="pill pill-connected">Connected</span>
+            <% } else { %>
+              <span class="pill pill-disconnected">Not connected</span>
+            <% } %>
+          </div>
+
+          <% if (gitlab) { %>
+            <p class="meta">Connected at: <%= gitlab.connected_at %></p>
+            <% const meta = gitlab.meta_json ? JSON.parse(gitlab.meta_json) : {}; %>
+            <% if (meta.gitlabUsername) { %>
+              <p class="meta highlight">User: <%= meta.gitlabUsername %></p>
+            <% } %>
+            <form method="post" action="/auth/gitlab/disconnect">
+              <button class="btn btn-secondary" type="submit">Disconnect</button>
+            </form>
+          <% } else { %>
+            <p class="meta">Scope: read_api</p>
+            <a class="btn" href="/auth/gitlab/start">Connect GitLab</a>
+          <% } %>
+        </article>
+      </section>
+    </main>
+  </body>
+</html>

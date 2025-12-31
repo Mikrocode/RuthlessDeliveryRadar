@@ -1,0 +1,39 @@
+{
+  "name": "ruthless-delivery-radar",
+  "version": "0.1.0",
+  "type": "module",
+  "engines": {
+    "node": ">=20 <21"
+  },
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "build": "tsc && node -e \"const fs=require('fs');if(fs.existsSync('public'))fs.cpSync('public','dist',{recursive:true});if(fs.existsSync('src/views'))fs.cpSync('src/views','dist/views',{recursive:true});\"",
+    "start": "node dist/server.js",
+    "test": "vitest",
+    "lint": "eslint . --ext .ts",
+    "format": "prettier --write ."
+  },
+  "dependencies": {
+    "better-sqlite3": "^9.6.0",
+    "dotenv": "^16.4.5",
+    "fastify": "^4.28.1",
+    "@fastify/static": "^6.10.2",
+    "@fastify/view": "^8.2.0",
+    "@fastify/cookie": "^9.2.0",
+    "ejs": "^3.1.10",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.12",
+    "@types/ejs": "^3.1.5",
+    "@types/node": "^22.9.3",
+    "@typescript-eslint/eslint-plugin": "^7.18.0",
+    "@typescript-eslint/parser": "^7.18.0",
+    "eslint": "^8.57.1",
+    "eslint-config-prettier": "^9.1.0",
+    "prettier": "^3.3.3",
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.3",
+    "vitest": "^1.6.0"
+  }
+}
