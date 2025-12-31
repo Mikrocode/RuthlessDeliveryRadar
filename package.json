@@ -21,12 +21,12 @@
     "@fastify/view": "^8.2.0",
     "@fastify/cookie": "^9.2.0",
     "ejs": "^3.1.10",
-    "zod": "^3.23.8"
+    "zod": "^3.23.8",
+    "@types/node": "^22.9.3",
+    "@types/better-sqlite3": "^7.6.12",
+    "@types/ejs": "^3.1.5"
   },
   "devDependencies": {
-    "@types/better-sqlite3": "^7.6.12",
-    "@types/ejs": "^3.1.5",
-    "@types/node": "^22.9.3",
     "@typescript-eslint/eslint-plugin": "^7.18.0",
     "@typescript-eslint/parser": "^7.18.0",
     "eslint": "^8.57.1",
