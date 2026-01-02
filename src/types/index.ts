@@ -29,4 +29,9 @@ export type ConnectionMeta = {
   siteName?: string;
   gitlabUserId?: number;
   gitlabUsername?: string;
+  issues?: Array<{
+    title: string;
+    status?: string;
+    url?: string;
+  }>;
 };

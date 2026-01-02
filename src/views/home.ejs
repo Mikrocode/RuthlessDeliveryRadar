@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RuthlessDeliveryRadar</title>
+    <link rel="stylesheet" href="/public/connections.css" />
+  </head>
+  <body>
+    <main class="container">
+      <section class="hero home-hero">
+        <div>
+          <p class="eyebrow">RuthlessDeliveryRadar</p>
+          <h1>Ship faster with connected signals</h1>
+          <p class="lead">
+            Link Jira or GitLab to pull issues, watch momentum, and surface delivery risk. OAuth-secure, SQLite-backed, and ready to deploy.
+          </p>
+          <div class="hero-actions">
+            <a class="btn" href="/auth/jira/start">Connect Jira</a>
+            <a class="btn ghost" href="/auth/gitlab/start">Connect GitLab</a>
+          </div>
+          <div class="doc-blurb">
+            <p class="meta">Docs quickstart</p>
+            <ul>
+              <li>Set env vars: JIRA_CLIENT_ID / SECRET / REDIRECT_URI</li>
+              <li>GitLab: GITLAB_CLIENT_ID / SECRET / REDIRECT_URI</li>
+              <li>Run locally: <code>npm run dev</code> • Production: <code>npm run build && npm start</code></li>
+            </ul>
+          </div>
+        </div>
+        <div class="hero-badge logo-tile">
+          <div class="badge-icon badge-logo">🚀</div>
+          <div>
+            <p class="meta">Connections</p>
+            <p class="badge-title">Jira • GitLab</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="cards">
+        <article class="card">
+          <div class="card-head">
+            <div class="card-title">
+              <span class="logo jira">J</span>
+              <div>
+                <h2>Jira</h2>
+                <p class="muted">OAuth + PKCE</p>
+              </div>
+            </div>
+            <% if (jira) { %>
+              <span class="pill pill-connected">Connected</span>
+            <% } else { %>
+              <span class="pill pill-disconnected">Not connected</span>
+            <% } %>
+          </div>
+          <% if (jira) { %>
+            <p class="meta">Connected at: <%= jira.connected_at %></p>
+            <% const meta = jira.meta_json ? JSON.parse(jira.meta_json) : {}; %>
+            <% if (meta.siteName) { %>
+              <p class="meta highlight">Site: <%= meta.siteName %></p>
+            <% } %>
+            <% if (meta.issues && meta.issues.length) { %>
+              <p class="meta">Open issues</p>
+              <ul class="issue-list">
+                <% meta.issues.forEach((i) => { %>
+                  <li>
+                    <span class="issue-title"><%= i.title %></span>
+                    <% if (i.status) { %><span class="pill pill-disconnected"><%= i.status %></span><% } %>
+                  </li>
+                <% }) %>
+              </ul>
+            <% } %>
+            <form method="post" action="/auth/jira/disconnect">
+              <button class="btn btn-secondary" type="submit">Disconnect</button>
+            </form>
+          <% } else { %>
+            <p class="meta">Scopes: read:jira-work, read:jira-user</p>
+            <a class="btn" href="/auth/jira/start">Connect Jira</a>
+          <% } %>
+        </article>
+
+        <article class="card">
+          <div class="card-head">
+            <div class="card-title">
+              <span class="logo gitlab">GL</span>
+              <div>
+                <h2>GitLab</h2>
+                <p class="muted">OAuth + PKCE</p>
+              </div>
+            </div>
+            <% if (gitlab) { %>
+              <span class="pill pill-connected">Connected</span>
+            <% } else { %>
+              <span class="pill pill-disconnected">Not connected</span>
+            <% } %>
+          </div>
+          <% if (gitlab) { %>
+            <p class="meta">Connected at: <%= gitlab.connected_at %></p>
+            <% const gmeta = gitlab.meta_json ? JSON.parse(gitlab.meta_json) : {}; %>
+            <% if (gmeta.gitlabUsername) { %>
+              <p class="meta highlight">User: <%= gmeta.gitlabUsername %></p>
+            <% } %>
+            <% if (gmeta.issues && gmeta.issues.length) { %>
+              <p class="meta">Open issues</p>
+              <ul class="issue-list">
+                <% gmeta.issues.forEach((i) => { %>
+                  <li>
+                    <span class="issue-title"><%= i.title %></span>
+                    <% if (i.status) { %><span class="pill pill-disconnected"><%= i.status %></span><% } %>
+                  </li>
+                <% }) %>
+              </ul>
+            <% } %>
+            <form method="post" action="/auth/gitlab/disconnect">
+              <button class="btn btn-secondary" type="submit">Disconnect</button>
+            </form>
+          <% } else { %>
+            <p class="meta">Scope: read_api</p>
+            <a class="btn" href="/auth/gitlab/start">Connect GitLab</a>
+          <% } %>
+        </article>
+      </section>
+    </main>
+  </body>
+</html>

@@ -111,6 +111,23 @@ export async function connectionsRoutes(app: FastifyInstance): Promise<void> {
         if (sites.length > 0) {
           meta.cloudId = sites[0].id;
           meta.siteName = sites[0].name;
+          try {
+            const issueResp = await fetch(
+              `https://api.atlassian.com/ex/jira/${sites[0].id}/rest/api/3/search?jql=statusCategory!=Done&maxResults=5&fields=summary,status`,
+              { headers: { Authorization: `Bearer ${tokenData.access_token}` } },
+            );
+            if (issueResp.ok) {
+              const payload = (await issueResp.json()) as { issues?: Array<{ fields?: { summary?: string; status?: { name?: string } }; key?: string }> };
+              meta.issues =
+                payload.issues?.map((issue) => ({
+                  title: issue.fields?.summary ?? issue.key ?? 'Issue',
+                  status: issue.fields?.status?.name,
+                  url: meta.cloudId ? `https://api.atlassian.com/ex/jira/${meta.cloudId}/browse/${issue.key ?? ''}` : undefined,
+                })) ?? [];
+            }
+          } catch (error) {
+            // ignore best-effort issues lookup
+          }
         }
       }
     } catch (error) {
@@ -214,6 +231,17 @@ export async function connectionsRoutes(app: FastifyInstance): Promise<void> {
         const user = (await userResp.json()) as { id: number; username?: string };
         meta.gitlabUserId = user.id;
         meta.gitlabUsername = user.username;
+      }
+      try {
+        const issuesResp = await fetch(new URL('/api/v4/issues?per_page=5&state=opened', gitlabBaseUrl).toString(), {
+          headers: { Authorization: `Bearer ${tokenData.access_token}` },
+        });
+        if (issuesResp.ok) {
+          const issues = (await issuesResp.json()) as Array<{ title: string; state?: string; web_url?: string }>;
+          meta.issues = issues.map((i) => ({ title: i.title, status: i.state, url: i.web_url }));
+        }
+      } catch (error) {
+        // ignore best-effort issues lookup
       }
     } catch (error) {
       // ignore best-effort lookup
